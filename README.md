@@ -6,18 +6,22 @@ Tie::Array::Pack - An array implemented as a packed string
 
 # SYNOPSIS
 
-    use Tie::Array::Pack
-    tie @array, Tie::Array::Pack => 'd';
-    $array[$_] = rand() for (1..1e6); # slow but memory-efficient
+```perl
+use Tie::Array::Pack
+tie @array, Tie::Array::Pack => 'd';
+$array[$_] = rand() for (1..1e6); # slow but memory-efficient
+```
 
 # INSTALLATION
 
 To install this module type the following as usual.
 
-    perl Makefile.PL
-    make
-    make test
-    make install
+```sh
+perl Makefile.PL
+make
+make test
+make install
+```
 
 # DESCRIPTION
 
@@ -28,30 +32,34 @@ of numbers in-memory.  This module saves memory in exchange for speed.
 
 With this module all you have to do is
 
-    tie @array, Tie::Array::Pack => $fmt
+```perl
+tie @array, Tie::Array::Pack => $fmt
+```
 
 where $fmt is one of the following that is supported by pack().
 
-    c   A signed char value.
-    C   An unsigned char value.
-    s   A signed short value.
-    S   An unsigned short value.
-    i   A signed integer value.
-    I   An unsigned integer value.
-    l   A signed long value.
-    L   An unsigned long value.
-    n   An unsigned short in "network" (big-endian) order.
-    N   An unsigned long in "network" (big-endian) order.
-    v   An unsigned short in "VAX" (little-endian) order.
-    V   An unsigned long in "VAX" (little-endian) order.
-    q   A signed quad (64-bit) value.
-    Q   An unsigned quad value.
-    j   A signed integer value (a Perl internal integer, IV).
-    J   An unsigned integer value (a Perl internal unsigned integer, UV).
-    f   A single-precision float in the native format.
-    d   A double-precision float in the native format.
-    F   A floating point value in the native native format
-    D   A long double-precision float in the native format.
+```
+c   A signed char value.
+C   An unsigned char value.
+s   A signed short value.
+S   An unsigned short value.
+i   A signed integer value.
+I   An unsigned integer value.
+l   A signed long value.
+L   An unsigned long value.
+n   An unsigned short in "network" (big-endian) order.
+N   An unsigned long in "network" (big-endian) order.
+v   An unsigned short in "VAX" (little-endian) order.
+V   An unsigned long in "VAX" (little-endian) order.
+q   A signed quad (64-bit) value.
+Q   An unsigned quad value.
+j   A signed integer value (a Perl internal integer, IV).
+J   An unsigned integer value (a Perl internal unsigned integer, UV).
+f   A single-precision float in the native format.
+d   A double-precision float in the native format.
+F   A floating point value in the native native format
+D   A long double-precision float in the native format.
+```
 
 If the format is not supported, it simply croaks.
 
@@ -64,24 +72,30 @@ None.
 You can optionally specify the value which spefies the empty element
 as follows;
 
-    tie @array, Tie::Array::Pack => l, -1; # -1 represents an empty value;
+```perl
+tie @array, Tie::Array::Pack => l, -1; # -1 represents an empty value;
+```
 
 The default value is 0.  Since this stores data in the packed string,
 the array is never sparse.  To illustrate the issue, try the
 following;
 
-    tie @array, Tie::Array::Pack => d;
-    $array[4] = 2;
-    print join(",", @array), "\n" # 0,0,0,0,2;
+```perl
+tie @array, Tie::Array::Pack => d;
+$array[4] = 2;
+print join(",", @array), "\n" # 0,0,0,0,2;
+```
 
 ## PICK THE RIGHT FORMAT
 
 Another issue is that you need to pick the right format or you will
 get an unexpected result.
 
-    tie @array, Tie::Array::Pack => C;
-    @array = (251..260);
-    print join(",", @array), "\n" # 251,252,253,254,255,0,1,2,3,4
+```perl
+tie @array, Tie::Array::Pack => C;
+@array = (251..260);
+print join(",", @array), "\n" # 251,252,253,254,255,0,1,2,3,4
+```
 
 In this case, the warning is issued.
 
@@ -121,11 +135,11 @@ Tie::File.  Below is the result on my MacBook Pro.
 
 # AUTHOR
 
-Dan Kogai, &lt;dankogai@dan.co.jp&lt;gt>
+Dan Kogai, &lt;dankogai@cpan.org&gt;
 
 # COPYRIGHT AND LICENSE
 
-Copyright (C) 2006 by Dan Kogai
+Copyright (C) 2006-2020 by Dan Kogai
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.8 or,
